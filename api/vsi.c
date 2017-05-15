@@ -209,7 +209,7 @@ void dumpGroups ( vsi_handle handle );
     be created rather than opening an existing data store.
 
 ------------------------------------------------------------------------*/
-vsi_handle vsi_initialize ( bool createNew )
+vsi_handle vsi_initialize_file ( bool createnew, const char *vssFile)
 {
     struct vsi_context *context;
 
@@ -247,8 +247,10 @@ vsi_handle vsi_initialize ( bool createNew )
     //
     //  Go import all of the VSS definitions into the system.
     //
-    LOG ( "\nImporting the VSS definition file from [%s]\n", VSS_INPUT_FILE );
-    (void) vsi_VSS_import ( context, VSS_INPUT_FILE );
+    LOG ( "\nImporting the VSS definition file from [%s]\n", vssFile );
+    if(vsi_VSS_import ( context, vssFile )) {
+        return NULL;
+    }
 
     // LOG ( "\nImported VSS signals by ID:\n\n" );
     // btree_traverse ( &context->signalIdIndex, traverseFunction );
@@ -262,6 +264,10 @@ vsi_handle vsi_initialize ( bool createNew )
     return context;
 }
 
+vsi_handle vsi_initialize ( bool createnew )
+{
+    return vsi_initialize_file(createnew, VSS_INPUT_FILE);
+}
 
 /*!----------------------------------------------------------------------------
 

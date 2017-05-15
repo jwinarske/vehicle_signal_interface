@@ -510,7 +510,7 @@ endif
 #    32 bit platforms will have "i386" here.
 #    64 bit platforms will have "x86_64" here.
 #
-PLATFORM := $(shell uname -i)
+PLATFORM := $(shell uname -m)
 
 #
 #    Define the global optimization flag.  Normally the same optimization
@@ -572,7 +572,7 @@ ifneq "$(OBJ_DIR)" ""
 endif
 
 LD_LIBS += -lc
-LD_OPTS ?= $(LD_FLAGS) $(LD_LIB_DIRS)
+LD_OPTS ?= $(LD_FLAGS) $(LD_LIB_DIRS) -Wl,-rpath,$(TOP_LIBRARY)
 LD_CMD	?= $(LD_LINKER) $(LD_OPTS) $(LD_LIBS)
 
 SO_CMD  ?= $(LD_CMD) -shared -fPIC

@@ -310,6 +310,7 @@ typedef struct vsi_signal_group
 
 ------------------------------------------------------------------------*/
 vsi_handle vsi_initialize ( bool createNew );
+vsi_handle vsi_initialize_file ( bool createNew, const char* filename );
 
 
 /*!-----------------------------------------------------------------------

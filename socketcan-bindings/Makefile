@@ -115,7 +115,7 @@
 #    should normally not be defined.  An explanation of what each does can be
 #    found in the master makefile (master.mk).
 #
-NO_PARALLEL_BUILDS = 1
+# NO_PARALLEL_BUILDS = 1
 # TRACE_COMMANDS = 1
 # TRACE_RULES = 1
 # NO_DIR_OUTPUT = 1
@@ -194,7 +194,9 @@ endif
 #
 # GOALS    = mux
 # SO_GOALS = libsharedLibrary.so
-# AR_GOALS = archiveLibrary.a
+# AR_GOALS = archiveLibrary.so
+
+GOALS = vsi-socketcand vsi-client
 
 #
 #    Define the list of alternate source directories.  This is a space or colon
@@ -204,7 +206,7 @@ endif
 #
 #    To set the source directory path, define the "SRC_DIRS" variable:
 #
-# SRC_DIRS = $(TOP)/src:../util
+SRC_DIRS = can-signals
 
 #
 #    The object files that are needed for each source file must be specified
@@ -254,6 +256,9 @@ endif
 #
 # OBJS_testJson = testJson.o
 
+OBJS_vsi-socketcand = vsi-socketcand.o genivi_demo_signals.o can_signals.o
+OBJS_vsi-client = vsi-client.o
+
 #
 #    Define the directory to be used to store object files and "goal" files.
 #    This MUST occur before the include of the global makefile.  This is
@@ -279,8 +284,6 @@ endif
 #    directory is built.
 #
 # SUBDIRS += foo bar
-
-SUBDIRS += core api lua-interfaces python-interfaces socketcan-bindings
 
 #
 #    If there are any goals that should be added to the default list of goals
@@ -390,6 +393,8 @@ include $(TOP)/build/master.mk
 # SO_LIBS_testJson += -L../someDirectory -ljunk -lpthreads
 # AR_LIBS_testJson += -L../someDirectory -ljunk -lpthreads
 
+LD_LIBS += -lvsi-api -lvsi-core -pthread
+
 #
 #    Define any files that need to be removed when the "make clean" command is
 #    issued.  All of the derived files such as object files and executables
@@ -434,7 +439,6 @@ include $(TOP)/build/master.mk
 #INSTALL_PLAIN_BIN_FILES = ""
 #INSTALL_LIB_FILES       = ""
 #INSTALL_PLAIN_LIB_FILES = ""
-#INSTALL_PLAIN_INCLUDE_FILES = $(wildcard *.h)
 
 #
 #    Define the following macro if additional dependencies are needed for the
