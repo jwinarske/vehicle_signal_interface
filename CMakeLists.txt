@@ -2,6 +2,8 @@ cmake_minimum_required (VERSION 2.8)
 
 project(vehicle_signal_interface C)
 
+set(VERSION "1.0.0")
+
 option(BUILD_LUA "Build Lua interface" OFF)
 option(BUILD_PYTHON "Build Python interface" ON)
 option(BUILD_CAN "Build SocketCAN bindings" ON)
@@ -27,4 +29,11 @@ endif()
 if(BUILD_CAN)
     add_subdirectory(socketcan-bindings)
 endif()
+
+
+set(INSTALL_LIB_DIR ${CMAKE_INSTALL_PREFIX}/lib)
+set(INSTALL_INC_DIR ${CMAKE_INSTALL_PREFIX}/include)
+configure_file( vsi.pc.cmake.in libvsi.pc @ONLY)
+set(INSTALL_PKGCONFIG_DIR "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" CACHE PATH "Installation directory for pkgconfig (.pc) files")
+install(FILES ${CMAKE_BINARY_DIR}/libvsi.pc DESTINATION "${INSTALL_PKGCONFIG_DIR}")
 
