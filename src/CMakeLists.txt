@@ -10,7 +10,11 @@ set(SRC
 
 add_library(vsi SHARED ${SRC})
 target_link_libraries(vsi ${CMAKE_THREAD_LIBS_INIT})
-install(TARGETS vsi LIBRARY DESTINATION lib)
+include(GNUInstallDirs)
+install(TARGETS vsi EXPORT vsi
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 add_executable(btreeTests btreeTests.c)
 target_link_libraries(btreeTests ${CMAKE_THREAD_LIBS_INIT} vsi)
